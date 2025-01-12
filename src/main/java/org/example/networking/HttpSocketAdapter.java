@@ -43,7 +43,7 @@ public class HttpSocketAdapter implements Closeable {
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
                 if (reader.ready()) {
                     HttpRequest request = Instantiator.getInstantiator().createHttpRequest(reader);
-
+                    // TODO: Implement Chain of Responsibility Logic
                     HttpResponse response = HttpResponse.Ok("<h1>Hello World</h1>");
                     writer.println(response);
                 }
