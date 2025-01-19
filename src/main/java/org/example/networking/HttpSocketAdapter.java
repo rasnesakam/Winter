@@ -1,8 +1,6 @@
 package org.example.networking;
 
-import org.example.core.HttpRequest;
-import org.example.core.HttpResponse;
-import org.example.core.Instantiator;
+import org.example.core.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -44,7 +42,11 @@ public class HttpSocketAdapter implements Closeable {
                 if (reader.ready()) {
                     HttpRequest request = Instantiator.getInstantiator().createHttpRequest(reader);
                     // TODO: Implement Chain of Responsibility Logic
-                    HttpResponse response = HttpResponse.Ok("<h1>Hello World</h1>");
+                    HttpContext context = new HttpContext();
+                    context.setRequest(request);
+                    RequestHandler handler = Instantiator.getInstantiator().getRequestHandlers();
+                    handler.handle(context);
+                    HttpResponse response = context.getResponse();
                     writer.println(response);
                 }
             }

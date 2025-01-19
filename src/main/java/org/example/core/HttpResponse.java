@@ -41,6 +41,12 @@ public class HttpResponse {
     public static HttpResponse Ok(String body) {
         return new HttpResponse(200, "OK", null, body);
     }
+    public static HttpResponse NotFound(String body) {
+        return new HttpResponse(404, "OK", null, body);
+    }
+    public static HttpResponse ServerError(String body) {
+        return new HttpResponse(500, "OK", null, body);
+    }
 
     @Override
     public String toString() {

@@ -1,10 +1,17 @@
 package org.example.core;
 
+import org.example.controller.SampleController;
+import org.example.requestHandlers.EndpointExecutionHandler;
+import org.example.requestHandlers.UriParseHandler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Instantiator {
     private static Instantiator instance;
@@ -14,6 +21,18 @@ public class Instantiator {
             instance = new Instantiator();
 
         return instance;
+    }
+
+    public RequestHandler getRequestHandlers() {
+        EndpointExecutionHandler endpointExecutionHandler = new EndpointExecutionHandler(null);
+        UriParseHandler uriParseHandler = new UriParseHandler(endpointExecutionHandler);
+        return uriParseHandler;
+    }
+
+    public Optional<Method> getMethodFromUri(String uri){
+        Class<SampleController> controllerClass = SampleController.class;
+        return Arrays.stream(controllerClass.getDeclaredMethods())
+                .filter(method -> method.getName().equals(uri.substring(1))).findFirst();
     }
 
     public HttpRequest createHttpRequest(BufferedReader reader) throws IOException {

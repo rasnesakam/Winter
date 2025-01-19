@@ -13,7 +13,11 @@ public class Main {
 
 
     public static void main(String[] args) {
-        try (HttpSocketAdapter adapter = new HttpSocketAdapter.HttpSocketAdapterBuilder().port(8080).build()){
+        HttpSocketAdapter.HttpSocketAdapterBuilder builder = new HttpSocketAdapter
+                .HttpSocketAdapterBuilder();
+        builder.port(8080);
+
+        try (HttpSocketAdapter adapter = builder.build()){
             adapter.startReading();
         } catch (IOException e) {
             e.printStackTrace();
